@@ -12,6 +12,6 @@ jobs:
       - name: Build and push the image
         run: 
           docker login --username aaronsleadd --password ${{ secrets.GH_PAT }} ghcr.io
-          docker build . -t ghcr.io/aaronsleadd/sass-app-container:latest
+          docker build . --tag ghcr.io/aaronsleadd/sass-app-container:latest
           docker push ghcr.io/aaronsleadd/sass-app-container:latest
 
