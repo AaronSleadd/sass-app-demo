@@ -1,0 +1,26 @@
+
+name: Build and Deploy to GHCR
+
+on:
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: ${{ secrets.GKE_PROJECT }}
+  GAR_LOCATION: us-central1 # TODO: update region of the Artifact Registry
+  GKE_CLUSTER: cluster-1    # TODO: update to cluster name
+  GKE_ZONE: us-central1-c   # TODO: update to cluster zone
+  DEPLOYMENT_NAME: gke-test # TODO: update to deployment name
+  REPOSITORY: samples # TODO: update to Artifact Registry docker repository
+  IMAGE: static-site
+
+jobs:
+  build_and_publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build and push the image
+        run: 
+          docker login --username bmorrisondev --password ${{ secrets.GH_PAT }} ghcr.io
+          docker build . --tag ghcr.io/aaronsleadd/sass-app-container:latest
+          docker push ghcr.io/aaronsleadd/sass-app-container:latest
+
